@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: atlassian-bitbucket
+  name: atlassian-bitbucket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atlassian-bitbucket
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: atlassian-bitbucket
+    spec:
+      containers:
+        - name: bitbucket
+          image: jbianquettibitnami/atlassian-bitbucket:latest
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 120
+            periodSeconds: 6
+            successThreshold: 1
+            timeoutSeconds: 5
+          ports:
+          - containerPort: 7990
+            name: http
+            protocol: TCP
+          - containerPort: 7999
+            name: ssh
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 3
