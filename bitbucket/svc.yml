@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: atlassian-bitbucket
+  labels:
+    app: atlassian-bitbucket
+spec:
+  selector:
+    app: atlassian-bitbucket
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 7990
+  - name: git
+    protocol: TCP
+    port: 7999
+    targetPort: 7999
+  type: LoadBalancer
