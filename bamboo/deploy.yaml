@@ -9,11 +9,6 @@ spec:
   selector:
     matchLabels:
       app: atlassian-bamboo
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -23,6 +18,18 @@ spec:
         - name: bamboo
           image: jbianquettibitnami/atlassian-bamboo:latest
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: bamboo-workdir
+            mountPath: /var/atlassian/bamboo
+          - name: bamboo-logs
+            mountPath: /opt/atlassian/bamboo/logs
+          ports:
+          - containerPort: 8085
+            name: http
+            protocol: TCP
+          - containerPort: 54663
+            name: ssh
+            protocol: TCP
           livenessProbe:
             failureThreshold: 3
             httpGet:
@@ -33,13 +40,6 @@ spec:
             periodSeconds: 6
             successThreshold: 1
             timeoutSeconds: 5
-          ports:
-          - containerPort: 8085
-            name: http
-            protocol: TCP
-          - containerPort: 54663
-            name: ssh
-            protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
@@ -50,3 +50,10 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             timeoutSeconds: 3
+      volumes:
+        - name: bamboo-workdir
+          emptyDir: {}
+        - name: bamboo-logs
+          emptyDir: {}
+
+

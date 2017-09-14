@@ -9,11 +9,6 @@ spec:
   selector:
     matchLabels:
       app: atlassian-bitbucket
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -23,6 +18,18 @@ spec:
         - name: bitbucket
           image: jbianquettibitnami/atlassian-bitbucket:latest
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: bitbucket-workdir
+            mountPath: /var/atlassian/bitbucket
+          - name: bitbucket-logs
+            mountPath: /opt/atlassian/bitbucket/logs
+          ports:
+          - containerPort: 7990
+            name: http
+            protocol: TCP
+          - containerPort: 7999
+            name: ssh
+            protocol: TCP
           livenessProbe:
             failureThreshold: 3
             httpGet:
@@ -33,13 +40,6 @@ spec:
             periodSeconds: 6
             successThreshold: 1
             timeoutSeconds: 5
-          ports:
-          - containerPort: 7990
-            name: http
-            protocol: TCP
-          - containerPort: 7999
-            name: ssh
-            protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
@@ -50,3 +50,8 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             timeoutSeconds: 3
+      volumes:
+        - name: bitbucket-workdir
+          emptyDir: {}
+        - name: bitbucket-logs
+          emptyDir: {}
