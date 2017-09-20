@@ -10,7 +10,7 @@ Atlassian products cover a  wide range of products, but here we're gonna work wi
 
 You'll need an Atlassian account. If you need an account, go [here](https://id.atlassian.com/signup)
 
-You'll need an Kuberntes cluster with at least XXXX GB of RAM available and a `kubectl` context configured 
+An GKE cluster able to run both software. See Atlassian requirements about that. 
 
 ## Install the Atlassian software 
 
@@ -28,11 +28,13 @@ To run Bamboo, execute:
 ```
 # Create the server 
 $ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/deploy.yaml
+# Create the secret with the GKE ServiceAccount to configure kubecfg
+$ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/secret.yaml
 # Expose the web app on port 80
 $ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/svc.yml
 ```
 
-You'll need a pair of minutes while the pods and load balancer gets up and running. Get a coffee :)
+You'll need a pair of minutes while the pods and load balancer gets up and running. 
 
 ## Configure Bitbucket
 ```
@@ -42,7 +44,6 @@ $ echo "http://$(kubectl get svc atlassian-bitbucket  -o jsonpath={.status.loadB
 
 Point your browser to the addresses, this will correspond to Bitbucket service.
 
-[image]
 
 Click 'Next' and select 'I have a Bitbucket license key'. Introduce your Bitbucket license key. 
 Click 'Next' and introduce the username, Full name, email address and password to create an admin user.
@@ -86,5 +87,5 @@ data:
   gcloud-svc-account: --- CONTENTS OF THE JSON SVC ACCOUNT, BASE64 ENCODED --
 ```
 
-The secret will be use to create a `~/.kube/config` file to be used by kubecfg. By this way you're authorized to run kubect/kubecfg commands 
+The secret will be use to create a config file to be used by kubecfg. By this way you're authorized to run kubect/kubecfg commands 
 
