@@ -1,4 +1,4 @@
-# Atlassian Bamboo and Bitbucket images
+# Atlassian Bamboo and Bitbucket images for GKE clusters
 
 Atlassian is an enterprise software company that develops products are widely used by enterprise customers
 Atlassian products cover a  wide range of products, but here we're gonna work with:
