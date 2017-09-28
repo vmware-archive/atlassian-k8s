@@ -19,7 +19,7 @@ We're going to expose the services as service type `LoadBalancer`
 To run Bitbucket, execute:
 ```
 # Create the server
-$ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bitbucket/deploy.yaml
+$ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bitbucket/deployment.yaml
 # Expose the web app on port 80 and git on port 7990
 $ kubectl create -f  https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bitbucket/svc.yml
 ```
@@ -27,7 +27,7 @@ $ kubectl create -f  https://raw.githubusercontent.com/jbianquetti-nami/atlassia
 To run Bamboo, execute:
 ```
 # Create the server 
-$ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/deploy.yaml
+$ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/deployment.yaml
 # Create the secret with the GKE ServiceAccount to configure kubecfg
 $ kubectl create -f https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/secret.yaml
 # Expose the web app on port 80
@@ -73,7 +73,7 @@ Bamboo image includes a kubectl proxy listen on port 8001 as a sidecar container
 
 To be able to deploy your workloads on GKE you will need to grant access to your cluster. To do so, we're going to create a Service Account. A service account is very similar to an IAM group on AWS. You can create it in: https://console.cloud.google.com/iam-admin/serviceaccounts/
 
-Do not forget to click on `Furnish a new key as JSON file` and store it securely. The contents of the file will going to be used as a secret. To do so, you need to encode as base64 and paste in the file
+Do not forget to click on `Furnish a new key as JSON file` and store it securely. The contents of the file will going to be used as a secret. To do so, you need to encode as base64 and paste in the file. Use [this file](https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/secret.yaml) as template.
 
 ```
 apiVersion: v1
@@ -86,5 +86,5 @@ data:
   gcloud-svc-account: --- CONTENTS OF THE JSON SVC ACCOUNT, BASE64 ENCODED --
 ```
 
-The secret will be use to create a config file to be used by kubecfg. By this way you're authorized to run kubect/kubecfg commands 
+The secret will be use to create a config file to be used by kubecfg. By this way you're authorized to run kubectl/kubecfg commands 
 
