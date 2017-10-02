@@ -10,7 +10,11 @@ Atlassian products cover a  wide range of products, but here we're gonna work wi
 
 You'll need an Atlassian account. If you need an account, go [here](https://id.atlassian.com/signup)
 
-An GKE cluster able to run both software. See Atlassian requirements about that. 
+An GKE cluster able to run both software. See Atlassian requirements about that: 
+
+* https://confluence.atlassian.com/bamboo/bamboo-best-practice-system-requirements-388401170.html#BambooBestPractice-SystemRequirements-CPUandmemory
+
+* https://confluence.atlassian.com/bitbucketserver/scaling-bitbucket-server-776640073.html
 
 # Configure kubecfg with GKE 
 
