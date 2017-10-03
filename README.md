@@ -10,7 +10,10 @@ Atlassian products cover a  wide range of products, but here we're gonna work wi
 
 You'll need an Atlassian account. If you need an account, go [here](https://id.atlassian.com/signup)
 
-An GKE cluster able to run both software. See Atlassian requirements about that: 
+An GKE cluster able to run both software `gcloud alpha container clusters create $NAME --num-nodes=1 --enable-autoscaling --min-nodes=1 --max-nodes=3 --no-enable-cloud-logging -m n1-standard-2` 
+
+
+See Atlassian requirements about that: 
 
 * https://confluence.atlassian.com/bamboo/bamboo-best-practice-system-requirements-388401170.html#BambooBestPractice-SystemRequirements-CPUandmemory
 
@@ -18,7 +21,7 @@ An GKE cluster able to run both software. See Atlassian requirements about that:
 
 # Configure kubecfg with GKE 
 
-To be able to deploy your workloads on GKE you will need to grant access to your cluster. To do so, we're going to create a Service Account. A service account is very similar to an IAM group on AWS. You can create it in: https://console.cloud.google.com/iam-admin/serviceaccounts/
+To be able to deploy your workloads on GKE you will need to grant access to your cluster. To do so, we're going to create a Service Account, with the role type Container Engine Developer . A service account is very similar to an IAM group on AWS. You can create it in: https://console.cloud.google.com/iam-admin/serviceaccounts/
 
 Do not forget to click on `Furnish a new key as JSON file` and store it securely. The contents of the file will going to be used as a secret. To do so, you need to encode as base64 and paste in the file. Use [this file](https://raw.githubusercontent.com/jbianquetti-nami/atlassian-k8s/master/bamboo/secret.yaml) as template.
 
